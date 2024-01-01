@@ -1,5 +1,3 @@
-package com.study
-
 fun main() {
     var year: Int
     var month: Int
