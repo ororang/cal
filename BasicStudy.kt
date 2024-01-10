@@ -1,5 +1,7 @@
 package com.study
 
+val dayAry = arrayOf("일", "월", "화", "수", "목", "금", "토")
+
 fun main() {
     while (true) {
         print("년도를 입력하세요: ")
@@ -13,21 +15,35 @@ fun main() {
         val daysInMonth = getDaysInMonth(year, month)
         val startDayOfWeek = getStartDayOfWeek(year, month)
 
-        println("  일  월  화  수  목  금  토")
+        for( dayStr in dayAry ) {
+            print(String.format("%5s", dayStr))
+        }
+        println()
 
         var dayOfWeek = startDayOfWeek
+
+        if(getStartDayOfWeek(year,month) != 0){
+            print("      ".repeat(getStartDayOfWeek(year,month)))
+        }else{
+            print("")
+        }
+
         for (dayOfMonth in 1..daysInMonth) {
-            if (dayOfWeek == 0 && dayOfMonth != 1) {
+            if (dayOfWeek == 0 ) {
+                print( "\u001B[31m")
                 println()
             }
 
-            if (dayOfMonth < 10) {
-                print("      $dayOfMonth")
-            } else {
-                print("     $dayOfMonth")
-            }
+
+            print(String.format("%6d",dayOfMonth))
 
             dayOfWeek = (dayOfWeek + 1) % 7
+            when(dayOfWeek){
+                dayOfWeek -> print( "\u001B[32m")
+            }
+            if(dayOfWeek == 6){
+                print( "\u001B[34m")
+            }
         }
 
         println("\n")
@@ -57,5 +73,7 @@ fun getStartDayOfWeek(year: Int, month: Int): Int {
     val k = y % 100
     val j = y / 100
     val dayOfWeek = (1 + 13 * (m + 1) / 5 + k + k / 4 + j / 4 + 5 * j) % 7
-    return (dayOfWeek + 6) % 7 // Convert to 0-based indexing, where Monday is 0
+    val F_day_of_month = (dayOfWeek + 6) % 7
+    return F_day_of_month // Convert to 0-based indexing, where Monday is 0
 }
+
